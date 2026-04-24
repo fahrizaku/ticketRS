@@ -46,12 +46,11 @@ async function main() {
 
   // 2. Seed Categories
   const categoryData = [
-    { name: 'IT & Sistem', description: 'Masalah komputer, jaringan, aplikasi' },
-    { name: 'Fasilitas', description: 'AC, listrik, plumbing, gedung' },
-    { name: 'Alat Medis', description: 'Peralatan dan mesin medis' },
-    { name: 'Farmasi', description: 'Permintaan dan masalah obat-obatan' },
-    { name: 'Kebersihan', description: 'Kebersihan ruangan dan lingkungan' },
-    { name: 'Lainnya', description: 'Permintaan atau laporan lainnya' },
+    { name: 'Jaringan Internet', description: 'Masalah koneksi internet, WiFi, LAN' },
+    { name: 'Aplikasi SIMRS', description: 'Bug, error, atau gangguan pada aplikasi SIMRS' },
+    { name: 'Komputer/Hardware', description: 'Kerusakan komputer, printer, dan perangkat keras lainnya' },
+    { name: 'Listrik', description: 'Gangguan daya listrik, stop kontak, atau instalasi' },
+    { name: 'Lainnya', description: 'Laporan atau permintaan di luar kategori di atas' },
   ]
 
   for (const cat of categoryData) {
@@ -59,10 +58,10 @@ async function main() {
   }
 
   // 3. Get Categories for Tickets
-  const [itCategory] = await db.select().from(categories).where(eq(categories.name, 'IT & Sistem'))
-  const [fasCategory] = await db.select().from(categories).where(eq(categories.name, 'Fasilitas'))
+  const [jaringanCategory] = await db.select().from(categories).where(eq(categories.name, 'Jaringan Internet'))
+  const [hardwareCategory] = await db.select().from(categories).where(eq(categories.name, 'Komputer/Hardware'))
 
-  if (itCategory && fasCategory && staff && teknisi) {
+  if (jaringanCategory && hardwareCategory && staff && teknisi) {
     // 4. Seed Tickets
     await db.insert(tickets).values([
       {
@@ -70,15 +69,15 @@ async function main() {
         description: 'Printer HP LaserJet di ruang administrasi lantai 2 tidak mau mencetak sejak pagi.',
         priority: 'HIGH',
         status: 'OPEN',
-        categoryId: itCategory.id,
+        categoryId: hardwareCategory.id,
         createdById: staff.id,
       },
       {
-        title: 'AC di ruang ICU mati',
-        description: 'AC di ruang ICU nomor 3 tidak berfungsi sejak kemarin malam.',
+        title: 'Internet di poli rawat jalan sangat lambat',
+        description: 'Koneksi internet di area poli rawat jalan tidak stabil sejak kemarin, menghambat akses SIMRS.',
         priority: 'CRITICAL',
         status: 'IN_PROGRESS',
-        categoryId: fasCategory.id,
+        categoryId: jaringanCategory.id,
         createdById: staff.id,
         assignedToId: teknisi.id,
       }
