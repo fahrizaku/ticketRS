@@ -106,7 +106,7 @@ export default async function DashboardPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4 mb-8">
+      <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4 mb-8">
         {statCards.map((card) => (
           <div key={card.label} className="rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-white/[0.03] p-6 shadow-theme-xs transition-all hover:shadow-theme-md">
             <div className={`flex items-center justify-center w-12 h-12 rounded-xl mb-4 ${card.bg} ${card.color}`}>
