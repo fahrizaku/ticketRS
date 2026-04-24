@@ -65,7 +65,7 @@ export async function createTicket(state: TicketState, formData: FormData): Prom
 
   const [ticket] = await db.insert(tickets).values({
     title: validated.data.title,
-    description: validated.data.description ?? '',
+    description: validated.data.description || null,
     categoryId: validated.data.categoryId,
     priority: validated.data.priority,
     imageUrl,

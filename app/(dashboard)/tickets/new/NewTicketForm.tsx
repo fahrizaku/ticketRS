@@ -28,7 +28,7 @@ export function NewTicketForm({ categories }: { categories: Category[] }) {
                 id="title"
                 name="title"
                 required
-                placeholder="Contoh: Printer di ruang administrasi tidak bisa mencetak"
+                placeholder="Contoh: Printer di ruang Arjuna tidak bisa mencetak"
                 className={`w-full px-4 py-2.5 rounded-xl border bg-gray-50 dark:bg-white/5 text-sm outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 ${state?.errors?.title ? 'border-error-500' : 'border-gray-200 dark:border-gray-800'}`}
               />
               {state?.errors?.title && (

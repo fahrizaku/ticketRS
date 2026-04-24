@@ -22,7 +22,7 @@ export const categories = sqliteTable("categories", {
 export const tickets = sqliteTable("tickets", {
   id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   title: text("title").notNull(),
-  description: text("description").notNull(),
+  description: text("description"),
   priority: text("priority").notNull().default("MEDIUM"), // LOW, MEDIUM, HIGH, CRITICAL
   status: text("status").notNull().default("OPEN"), // OPEN, IN_PROGRESS, CLOSED
   imageUrl: text("image_url"),
