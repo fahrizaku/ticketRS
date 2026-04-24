@@ -22,7 +22,7 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="id">
-      <body className={`${outfit.className} dark:bg-gray-950 transition-colors duration-300`}>
+      <body className={`${outfit.className} dark:bg-gray-950 transition-colors duration-300`} suppressHydrationWarning>
         <ThemeProvider>
           <SidebarProvider>
             {children}

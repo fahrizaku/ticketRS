@@ -13,7 +13,7 @@ import { createNotification } from './notifications'
 
 const TicketSchema = z.object({
   title: z.string().min(5, { message: 'Judul minimal 5 karakter' }),
-  description: z.string().min(10, { message: 'Deskripsi minimal 10 karakter' }),
+  description: z.string().optional(),
   categoryId: z.string().min(1, { message: 'Pilih kategori' }),
   priority: z.enum(['LOW', 'MEDIUM', 'HIGH', 'CRITICAL']),
 })
@@ -65,7 +65,7 @@ export async function createTicket(state: TicketState, formData: FormData): Prom
 
   const [ticket] = await db.insert(tickets).values({
     title: validated.data.title,
-    description: validated.data.description,
+    description: validated.data.description ?? '',
     categoryId: validated.data.categoryId,
     priority: validated.data.priority,
     imageUrl,

@@ -22,7 +22,7 @@ export default async function CategoriesPage() {
     .from(categoriesTable)
     .leftJoin(tickets, eq(categoriesTable.id, tickets.categoryId))
     .groupBy(categoriesTable.id)
-    .orderBy(asc(categoriesTable.name))
+    .orderBy(sql`CASE WHEN ${categoriesTable.name} = 'Lainnya' THEN 1 ELSE 0 END`, asc(categoriesTable.name))
 
   // Mapping to match expected component structure
   const categories = categoriesData.map(c => ({

@@ -3,7 +3,7 @@ import { PlusCircle, Search, Filter, RotateCcw, Ticket as TicketIcon } from 'luc
 import { getSession } from '@/app/lib/auth'
 import { db } from '@/app/lib/db'
 import { tickets as ticketsTable, categories as categoriesTable, users } from '@/app/lib/schema'
-import { eq, and, desc, sql, like } from 'drizzle-orm'
+import { eq, and, desc, sql, like, asc } from 'drizzle-orm'
 import { PriorityBadge, StatusBadge } from '@/app/components/ui/Badge'
 import AvatarText from '@/app/components/ui/AvatarText'
 import ComponentCard from '@/app/components/common/ComponentCard'
@@ -53,7 +53,8 @@ export default async function TicketsPage({ searchParams }: { searchParams: Prom
       .innerJoin(categoriesTable, eq(ticketsTable.categoryId, categoriesTable.id))
       .innerJoin(users, eq(ticketsTable.createdById, users.id))
       .orderBy(desc(ticketsTable.createdAt)),
-    db.select().from(categoriesTable).orderBy(categoriesTable.name)
+    db.select().from(categoriesTable)
+      .orderBy(sql`CASE WHEN ${categoriesTable.name} = 'Lainnya' THEN 1 ELSE 0 END`, asc(categoriesTable.name))
   ])
 
   const statuses = [

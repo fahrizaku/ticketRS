@@ -28,7 +28,7 @@ export function NewTicketForm({ categories }: { categories: Category[] }) {
                 id="title"
                 name="title"
                 required
-                placeholder="Contoh: Lampu Ruang Perawatan Lantai 3 Mati"
+                placeholder="Contoh: Printer di ruang administrasi tidak bisa mencetak"
                 className={`w-full px-4 py-2.5 rounded-xl border bg-gray-50 dark:bg-white/5 text-sm outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 ${state?.errors?.title ? 'border-error-500' : 'border-gray-200 dark:border-gray-800'}`}
               />
               {state?.errors?.title && (
@@ -41,14 +41,13 @@ export function NewTicketForm({ categories }: { categories: Category[] }) {
             {/* Deskripsi */}
             <div>
               <label htmlFor="description" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1.5">
-                Detail Deskripsi <span className="text-error-500">*</span>
+                Detail Deskripsi
               </label>
               <textarea
                 id="description"
                 name="description"
-                required
-                rows={5}
-                placeholder="Jelaskan secara detail lokasi kejadian, jenis kerusakan, dan kronologinya..."
+                rows={3}
+                placeholder="Tulis detail laporan di sini..."
                 className={`w-full px-4 py-2.5 rounded-xl border bg-gray-50 dark:bg-white/5 text-sm outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 resize-none ${state?.errors?.description ? 'border-error-500' : 'border-gray-200 dark:border-gray-800'}`}
               />
               {state?.errors?.description && (
