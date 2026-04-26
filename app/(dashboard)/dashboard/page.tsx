@@ -149,7 +149,7 @@ export default async function DashboardPage() {
                     <TableRow key={ticket.id} className="hover:bg-gray-50 dark:hover:bg-white/[0.02] transition-colors">
                       <TableCell>
                         <div className="flex items-center gap-3">
-                          <AvatarText name={ticket.createdBy.name} />
+                          <AvatarText name={ticket.createdBy.name} className="hidden sm:flex" />
                           <div>
                             <Link 
                               href={`/tickets/${ticket.id}`}
