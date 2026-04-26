@@ -46,7 +46,7 @@ export default function AppHeader({ user }: { user: any }) {
           </button>
         </div>
 
-        <div className="flex items-center gap-3 2xsm:gap-7">
+        <div className="ml-auto flex items-center gap-3 2xsm:gap-7">
           <ul className="flex items-center gap-2 2xsm:gap-4">
             <li>
               <button
