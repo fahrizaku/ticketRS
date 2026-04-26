@@ -15,6 +15,7 @@ export default async function UsersPage() {
   const users = await db.select({
     id: usersTable.id,
     name: usersTable.name,
+    username: usersTable.username,
     email: usersTable.email,
     role: usersTable.role,
     department: usersTable.department,

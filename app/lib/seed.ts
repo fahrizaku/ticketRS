@@ -11,37 +11,40 @@ async function main() {
   const adminPass = await bcrypt.hash('admin123', 10)
   const [admin] = await db.insert(users).values({
     name: 'Administrator',
+    username: 'admin',
     email: 'admin@rs.com',
     password: adminPass,
     role: 'ADMIN',
     department: 'Manajemen',
   }).onConflictDoUpdate({
     target: users.email,
-    set: { name: 'Administrator', password: adminPass, role: 'ADMIN' }
+    set: { name: 'Administrator', username: 'admin', password: adminPass, role: 'ADMIN' }
   }).returning()
 
   const teknisiPass = await bcrypt.hash('teknisi123', 10)
   const [teknisi] = await db.insert(users).values({
     name: 'Ahmad Teknisi',
+    username: 'teknisi',
     email: 'teknisi@rs.com',
     password: teknisiPass,
     role: 'TEKNISI',
     department: 'Teknik',
   }).onConflictDoUpdate({
     target: users.email,
-    set: { name: 'Ahmad Teknisi', password: teknisiPass, role: 'TEKNISI' }
+    set: { name: 'Ahmad Teknisi', username: 'teknisi', password: teknisiPass, role: 'TEKNISI' }
   }).returning()
 
   const staffPass = await bcrypt.hash('staff123', 10)
   const [staff] = await db.insert(users).values({
     name: 'Budi Staff',
+    username: 'staff',
     email: 'staff@rs.com',
     password: staffPass,
     role: 'STAFF',
     department: 'IGD',
   }).onConflictDoUpdate({
     target: users.email,
-    set: { name: 'Budi Staff', password: staffPass, role: 'STAFF' }
+    set: { name: 'Budi Staff', username: 'staff', password: staffPass, role: 'STAFF' }
   }).returning()
 
   // 2. Seed Categories
@@ -85,9 +88,9 @@ async function main() {
   }
 
   console.log('Seed selesai!')
-  console.log('Login: admin@rs.com / admin123')
-  console.log('Login: teknisi@rs.com / teknisi123')
-  console.log('Login: staff@rs.com / staff123')
+  console.log('Login: admin / admin123')
+  console.log('Login: teknisi / teknisi123')
+  console.log('Login: staff / staff123')
 }
 
 main().catch(console.error)

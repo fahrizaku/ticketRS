@@ -4,6 +4,7 @@ import { sql } from "drizzle-orm";
 export const users = sqliteTable("users", {
   id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
   name: text("name").notNull(),
+  username: text("username").notNull().unique(),
   email: text("email").notNull().unique(),
   password: text("password").notNull(),
   role: text("role").notNull().default("STAFF"), // ADMIN, TEKNISI, STAFF

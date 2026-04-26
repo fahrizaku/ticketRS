@@ -10,18 +10,18 @@ import { createSession, deleteSession } from '@/app/lib/auth'
 import type { Role } from '@/app/lib/definitions'
 
 const LoginSchema = z.object({
-  email: z.string().email({ message: 'Email tidak valid' }),
+  username: z.string().min(1, { message: 'Username wajib diisi' }),
   password: z.string().min(1, { message: 'Password wajib diisi' }),
 })
 
 export type AuthState = {
-  errors?: { email?: string[]; password?: string[] }
+  errors?: { username?: string[]; password?: string[] }
   message?: string
 } | null
 
 export async function login(state: AuthState, formData: FormData): Promise<AuthState> {
   const validated = LoginSchema.safeParse({
-    email: formData.get('email'),
+    username: formData.get('username'),
     password: formData.get('password'),
   })
 
@@ -29,11 +29,11 @@ export async function login(state: AuthState, formData: FormData): Promise<AuthS
     return { errors: validated.error.flatten().fieldErrors }
   }
 
-  const [user] = await db.select().from(users).where(eq(users.email, validated.data.email))
-  if (!user) return { message: 'Email atau password salah' }
+  const [user] = await db.select().from(users).where(eq(users.username, validated.data.username))
+  if (!user) return { message: 'Username atau password salah' }
 
   const passwordMatch = await bcrypt.compare(validated.data.password, user.password)
-  if (!passwordMatch) return { message: 'Email atau password salah' }
+  if (!passwordMatch) return { message: 'Username atau password salah' }
 
   await createSession({
     id: user.id,
@@ -53,6 +53,7 @@ export async function logout() {
 
 const RegisterSchema = z.object({
   name: z.string().min(2, { message: 'Nama minimal 2 karakter' }),
+  username: z.string().min(3, { message: 'Username minimal 3 karakter' }).regex(/^[a-zA-Z0-9_]+$/, { message: 'Username hanya boleh huruf, angka, dan underscore' }),
   email: z.string().email({ message: 'Email tidak valid' }),
   password: z.string().min(6, { message: 'Password minimal 6 karakter' }),
   role: z.enum(['STAFF', 'TEKNISI', 'ADMIN']),
@@ -62,6 +63,7 @@ const RegisterSchema = z.object({
 export type RegisterState = {
   errors?: {
     name?: string[]
+    username?: string[]
     email?: string[]
     password?: string[]
     role?: string[]
@@ -74,6 +76,7 @@ export type RegisterState = {
 export async function registerUser(state: RegisterState, formData: FormData): Promise<RegisterState> {
   const validated = RegisterSchema.safeParse({
     name: formData.get('name'),
+    username: formData.get('username'),
     email: formData.get('email'),
     password: formData.get('password'),
     role: formData.get('role'),
@@ -84,12 +87,16 @@ export async function registerUser(state: RegisterState, formData: FormData): Pr
     return { errors: validated.error.flatten().fieldErrors }
   }
 
-  const [existing] = await db.select().from(users).where(eq(users.email, validated.data.email))
-  if (existing) return { message: 'Email sudah terdaftar' }
+  const [existingUsername] = await db.select().from(users).where(eq(users.username, validated.data.username))
+  if (existingUsername) return { message: 'Username sudah digunakan' }
+
+  const [existingEmail] = await db.select().from(users).where(eq(users.email, validated.data.email))
+  if (existingEmail) return { message: 'Email sudah terdaftar' }
 
   const hashed = await bcrypt.hash(validated.data.password, 10)
   await db.insert(users).values({
     name: validated.data.name,
+    username: validated.data.username,
     email: validated.data.email,
     password: hashed,
     role: validated.data.role,

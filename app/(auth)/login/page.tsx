@@ -34,17 +34,18 @@ export default function LoginPage() {
           <form action={action} className="space-y-6">
             <div>
               <label className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-                Email
+                Username
               </label>
               <input
-                type="email"
-                name="email"
-                placeholder="nama@rs.com"
+                type="text"
+                name="username"
+                placeholder="username"
                 required
+                autoComplete="username"
                 className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-transparent px-4 py-3 text-sm text-gray-900 dark:text-white outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10 transition-all"
               />
-              {state?.errors?.email && (
-                <p className="mt-1 text-xs text-error-500">{state.errors.email[0]}</p>
+              {state?.errors?.username && (
+                <p className="mt-1 text-xs text-error-500">{state.errors.username[0]}</p>
               )}
             </div>
 

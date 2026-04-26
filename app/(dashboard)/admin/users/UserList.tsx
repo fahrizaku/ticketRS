@@ -1,10 +1,11 @@
 'use client'
 
-import { User, Mail, Building } from 'lucide-react'
+import { User, Mail, Building, AtSign } from 'lucide-react'
 
 type UserItem = {
   id: string
   name: string
+  username: string
   email: string
   role: string
   department: string | null
@@ -34,6 +35,9 @@ export function UserList({ users, currentUserId }: { users: UserItem[]; currentU
                 )}
               </div>
               <div className="flex items-center gap-3 mt-0.5">
+                <span className="flex items-center gap-1 text-xs text-gray-500 truncate">
+                  <AtSign size={11} /> {user.username}
+                </span>
                 <span className="flex items-center gap-1 text-xs text-gray-500 truncate">
                   <Mail size={11} /> {user.email}
                 </span>
