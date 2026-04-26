@@ -5,7 +5,6 @@ import { useTheme } from "../../context/ThemeContext";
 import { logout } from "@/app/actions/auth";
 import {
   Menu,
-  Search,
   Moon,
   Sun,
   User as UserIcon,
@@ -45,19 +44,6 @@ export default function AppHeader({ user }: { user: any }) {
           >
             <Menu size={20} />
           </button>
-        </div>
-
-        <div className="hidden sm:block">
-          <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
-              <Search size={18} />
-            </span>
-            <input
-              type="text"
-              placeholder="Cari tiket..."
-              className="w-full xl:w-96 rounded-lg border border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-white/5 py-2.5 pl-10 pr-4 text-sm outline-none focus:border-brand-500 dark:focus:border-brand-500 transition-all"
-            />
-          </div>
         </div>
 
         <div className="flex items-center gap-3 2xsm:gap-7">
