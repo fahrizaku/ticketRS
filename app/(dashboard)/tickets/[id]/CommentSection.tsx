@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useTransition } from 'react'
+import { useRouter } from 'next/navigation'
 import { Loader2, MessageSquare, Send } from 'lucide-react'
 import { addComment } from '@/app/actions/tickets'
 
@@ -24,11 +25,11 @@ const ROLE_COLORS: Record<string, string> = {
   ADMIN: 'bg-purple-100 text-purple-700',
 }
 
-export function CommentSection({ ticketId, comments: initialComments, currentUserId }: Props) {
-  const [comments, setComments] = useState(initialComments)
+export function CommentSection({ ticketId, comments, currentUserId }: Props) {
   const [content, setContent] = useState('')
   const [isPending, startTransition] = useTransition()
   const [error, setError] = useState('')
+  const router = useRouter()
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -41,6 +42,7 @@ export function CommentSection({ ticketId, comments: initialComments, currentUse
         setError(result.error)
       } else {
         setContent('')
+        router.refresh()
       }
     })
   }
