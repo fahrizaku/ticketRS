@@ -4,9 +4,21 @@ import { db } from '@/app/lib/db'
 import { notifications } from '@/app/lib/schema'
 import { eq, desc, and } from 'drizzle-orm'
 import { getSession } from '@/app/lib/auth'
+import { eventBus, EVENTS } from '@/app/lib/events'
 
 export async function createNotification(userId: string, message: string, link?: string) {
-  await db.insert(notifications).values({ userId, message, link })
+  const [newNotification] = await db
+    .insert(notifications)
+    .values({ userId, message, link })
+    .returning()
+
+  // Emit event ke pusat event bus
+  eventBus.emit(EVENTS.NOTIFICATION_NEW, {
+    userId,
+    notification: newNotification,
+  })
+
+  return newNotification
 }
 
 export async function getNotifications() {

@@ -55,8 +55,24 @@ export default function NotificationBell() {
 
   useEffect(() => {
     fetchNotifications();
-    const interval = setInterval(fetchNotifications, 30000);
-    return () => clearInterval(interval);
+
+    // Inisialisasi SSE
+    const eventSource = new EventSource("/api/events");
+
+    eventSource.addEventListener("notification:new", (event: any) => {
+      const newNotification = JSON.parse(event.data);
+      setNotifications((prev) => [newNotification, ...prev]);
+      playNotificationSound();
+    });
+
+    eventSource.onerror = (err) => {
+      console.error("EventSource failed:", err);
+      eventSource.close();
+    };
+
+    return () => {
+      eventSource.close();
+    };
   }, []);
 
   useEffect(() => {
