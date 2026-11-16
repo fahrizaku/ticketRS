@@ -50,3 +50,6 @@ prisma/*.db-wal
 # user uploads
 /public/uploads/*
 !/public/uploads/.gitkeep
+
+# keep the example file
+!.env.example
